@@ -47,9 +47,9 @@ public class BouncingSprite extends ConstantVelocitySprite{
 		
 		if(checkEdge()){
 			System.out.println("update ");
-			location.add(-velocity.getX() ,
-					-velocity.getY() ,
-					-velocity.getZ() );
+			location.add(-velocity.getX()*elapsedTime,
+					-velocity.getY()*elapsedTime ,
+					-velocity.getZ() *elapsedTime);
 		}
 		else{
 		location.add(
