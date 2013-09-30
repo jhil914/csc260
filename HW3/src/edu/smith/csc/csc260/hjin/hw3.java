@@ -23,6 +23,15 @@ import edu.smith.csc.csc260.util.Point;
 			frameRate(30);
 			setBackgroundColor(new Color(70,50,70, 255));
 			
+			CircleSprite s = new CircleSprite(20);
+			s.setLocation(new Point(5,15));
+			s.setFill(new Color(255,0,0,200));
+			
+			BouncingSprite bs = new BouncingSprite(windowWidth, windowHeight,new Point(.1f, .01f,0), .01f);
+			bs.setLocation(new Point(30,50));
+			bs.setFill(new Color(255,0,0,200));
+			addSprite(bs);
+			
 		/**	RectangleSprite r = new RectangleSprite(10, 30);
 			r.setLocation(new Point(5, 15));
 			r.setFill(new Color(255,0,0,255));
@@ -43,11 +52,11 @@ import edu.smith.csc.csc260.util.Point;
 			addSprite(cvs);
 			cvs = new ConstantVelocitySprite(new Point(0, .01f, 0),0); 
 			addSprite(cvs);
-			cvs = new ConstantVelocitySprite(new Point(.01f, .01f,0), .01f); 
-			addSprite(cvs);
+			//cvs = new ConstantVelocitySprite(new Point(.01f, .01f,0), .01f); 
+			//addSprite(cvs);
 			
 			InterpolatedSprite is = new InterpolatedSprite();
-			is.setFill(new Color(0,200,255, 255));
+			is.setFill(new Color(0,200,255, 150));
 			is.setLocationInterpolator(new LinearPointInterpolator(
 					new Point(20, 180), 
 					new Point(180,20),
