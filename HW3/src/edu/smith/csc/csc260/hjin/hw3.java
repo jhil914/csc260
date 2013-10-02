@@ -14,8 +14,8 @@ import edu.smith.csc.csc260.util.Point;
 
 	public class hw3 extends SmithPApplet {
 		private static final long serialVersionUID = 1L;
-		public int windowWidth = 300;
-		public int windowHeight = 300;
+		public int windowWidth = 200;
+		public int windowHeight = 100;
 		public void setup() {
 			super.setup();
 			
@@ -27,7 +27,7 @@ import edu.smith.csc.csc260.util.Point;
 			s.setLocation(new Point(5,15));
 			s.setFill(new Color(255,0,0,200));
 			
-			BouncingSprite bs = new BouncingSprite(windowWidth, windowHeight,new Point(.1f, .01f,0));
+			BouncingSprite bs = new BouncingSprite(windowWidth, windowHeight,new Point(.09f, .1f,0));
 			bs.setLocation(new Point(30,50));
 			bs.setFill(new Color(255,0,0,200));
 			addSprite(bs);

@@ -12,8 +12,6 @@ public class BouncingSprite extends ConstantVelocitySprite{
 	public float currX;
 	public float currY;
 	public float radius;
-	public boolean isX;
-	public boolean isY;
 	public String isit;
 	public BouncingSprite(int W, int H,Point v){
 		super(v, 0);
@@ -21,7 +19,7 @@ public class BouncingSprite extends ConstantVelocitySprite{
 		canvasWidth = W;
 		isEdge = 1;
 		radius = 10;
-		isX = false;
+		
 		isit = " ";
 		
 	}
@@ -35,44 +33,63 @@ public class BouncingSprite extends ConstantVelocitySprite{
 		currX = Math.abs(getLocation().getX());
 		currY = Math.abs(getLocation().getY());
 		System.out.println(currX+" "+currY);
-		if(currX <=radius || currX >=canvasWidth-radius){
-			System.out.println(currX+"is smaller than "+radius);
-			System.out.println(canvasWidth-radius);
+		if((currX <=radius || currX >=canvasWidth-radius)&&(currY <=radius || currY >=canvasHeight-radius)){
+			isit = "xy";
+		}
+		
+		else if(currX <=radius || currX >=canvasWidth-radius){
+			
 			isEdge*=-1;
-			isX =true;
+			
 			isit = "x";
 			
 		}
-		 if(currY <=radius || currY >=canvasHeight-radius){
+		else if(currY <=radius || currY >=canvasHeight-radius){
 			isEdge *= -1;
-			isY = true;
 			isit = "y";
 		}
 		return isEdge;
 	}
 	@Override
 	public void updatePosition(SmithPApplet pApplet, long curTime, long lastTime, long elapsedTime) {
-		
+		float vx = velocity.getX()*elapsedTime;
+		float vy = velocity.getY()*elapsedTime;
 		if(checkEdge()==-1){
-			if(isit =="x"){
-			location.add(-velocity.getX()*elapsedTime,
-					-velocity.getY()*elapsedTime ,
-					0);
-			//Maybe I should not seperate location add... may be I should combine
-			//it in some way... wtf..
 			
+			if(isit =="x"){
+				
+			vx = -vx;
+			
+			if(vy<0){
+				vy*=-1;
+			}
 			}
 			else if(isit =="y"){
 				
-				location.add(velocity.getX()*elapsedTime,
-						-velocity.getY()*elapsedTime ,
-						0);
+				vy = -vy;
+			if(vx<0){
+				vx*=-1;
+			}
 			
 			
 			}
-			System.out.println("isit: "+isit);
+			else if(isit =="xy"){
+				if(vx>0){
+					vx = -vx;
+				}
+				if(vy>0){
+				vy = -vy;
+				}
+			}
+			
+			System.out.println(vx+" "+vy);
+			location.add(vx,
+					vy,
+					0);
+			
 		}
 		else{
+			System.out.println("it is not on the edge");
 		location.add(
 				velocity.getX() * elapsedTime,
 				velocity.getY() * elapsedTime,
