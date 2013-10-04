@@ -9,8 +9,8 @@ public class BouncingSprite extends ConstantVelocitySprite{
 	public int canvasHeight;
 	public int canvasWidth;
 	public int isEdge;
-	public float currX;
-	public float currY;
+	public int currX;
+	public int currY;
 	public float radius;
 	public String isit;
 	public BouncingSprite(int W, int H,Point v){
@@ -28,10 +28,48 @@ public class BouncingSprite extends ConstantVelocitySprite{
 		pApplet.ellipse(radius, radius, 2*radius, 2*radius);
 	}
 	
-	public int checkEdge(){
+	public enum Wall { LEFT, RIGHT, TOP, BOTTOM, TOPLEFT, TOPRIGHT, BOTTOMLEFT, BOTTOMRIGHT, NONE }
+	
+	public Wall checkEdge(){
+		Wall w = Wall.NONE;
+		currX = (int)  Math.abs(getLocation().getX());
+		currY = (int) Math.abs(getLocation().getY());
+
+		if(currX - radius < 0) {
+			if(currY - radius < 0) {
+				w= Wall.TOPLEFT;
+			} else if  (currY + radius > canvasHeight) {
+				w= Wall.BOTTOMLEFT;
+			} else {
+				w= Wall.LEFT;
+			}
+		} 
+		else if (currX + radius > canvasWidth) {
+			if(currY - radius<0){
+				w= Wall.TOPRIGHT;
+			}
+			else if( currY +radius >canvasHeight){
+				w= Wall.BOTTOMRIGHT;
+			}
+			else {
+				System.out.println("curr x: "+currX);
+				w= Wall.RIGHT;
+			}
+		}
+		else if(currY <radius){
+			w= Wall.TOP;
+		}
+		else if(currY +radius > canvasHeight){
+			
+			w= Wall.BOTTOM;
+			
+		}
 		
-		currX = Math.abs(getLocation().getX());
-		currY = Math.abs(getLocation().getY());
+		
+		
+		return w;
+	}	/*	
+		
 		System.out.println(currX+" "+currY);
 		if((currX <=radius || currX >=canvasWidth-radius)&&(currY <=radius || currY >=canvasHeight-radius)){
 			isit = "xy";
@@ -50,39 +88,39 @@ public class BouncingSprite extends ConstantVelocitySprite{
 		}
 		return isEdge;
 	}
+	*/ 
 	@Override
 	public void updatePosition(SmithPApplet pApplet, long curTime, long lastTime, long elapsedTime) {
 		float vx = velocity.getX()*elapsedTime;
 		float vy = velocity.getY()*elapsedTime;
-		if(checkEdge()==-1){
-			
-			if(isit =="x"){
-				
-			vx = -vx;
-			
-			if(vy<0){
-				vy*=-1;
+		
+		Wall w = checkEdge();
+		if(w != Wall.NONE) {
+			System.out.println("edge");
+			if (w == Wall.LEFT || w == Wall.TOPLEFT || w == Wall.BOTTOMLEFT) {
+				if(vx < 0) {
+					vx *= -1;
+				}				
 			}
-			}
-			else if(isit =="y"){
-				
-				vy = -vy;
-			if(vx<0){
-				vx*=-1;
-			}
-			
-			
-			}
-			else if(isit =="xy"){
-				if(vx>0){
-					vx = -vx;
-				}
-				if(vy>0){
-				vy = -vy;
+			else if (w ==Wall.RIGHT || w ==Wall.TOPRIGHT || w == Wall.BOTTOMRIGHT){
+				if (vx>0){
+					vx *=-1;
 				}
 			}
+			else if (w == Wall.TOP){
+				if (vy >0){
+					vy *=-1;
+				}
+			}
+			else {
+				System.out.println("bottom");
+				if (vy >0){
+					vy *=-20;
+					System.out.println(vy);
+				}
+			}
 			
-			System.out.println(vx+" "+vy);
+	
 			location.add(vx,
 					vy,
 					0);
