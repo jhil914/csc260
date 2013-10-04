@@ -1,3 +1,9 @@
+/**@author Hee Jin
+ * CSC 260
+ * 4 Oct 2013
+ * The class makes the sprite bounce off the walls.
+ *  
+ *  */
 package edu.smith.csc.csc260.hjin;
 
 import edu.smith.csc.csc260.core.SmithPApplet;
@@ -6,36 +12,39 @@ import edu.smith.csc.csc260.spites.Sprite;
 import edu.smith.csc.csc260.util.Point;
 
 public class BouncingSprite extends ConstantVelocitySprite{
+	/** the height of the canvas */
 	public int canvasHeight;
-	public int canvasWidth;
-	public int isEdge;
-	public int currX;
-	public int currY;
+	/** the width of the canvas */
+	public int canvasWidth;	
+	/** Current x position of the sprite */
+	public float currX;
+	/** Current Y position of the sprite */
+	public float currY;
+	/** The sprite's radius */
 	public float radius;
-	public String isit;
-	public BouncingSprite(int W, int H,Point v){
+	/** Constructor for bouncingsprite*/
+	public BouncingSprite(int W, int H,Point v,int r){
 		super(v, 0);
 		canvasHeight = H;
-		canvasWidth = W;
-		isEdge = 1;
-		radius = 10;
-		
-		isit = " ";
-		
+		canvasWidth = W;	
+		radius = r;		
 	}
 	//@override
 	public void render(SmithPApplet pApplet) {
 		pApplet.ellipse(radius, radius, 2*radius, 2*radius);
 	}
-	
+	/**Enum for the location of where the ball hits on the walls */
 	public enum Wall { LEFT, RIGHT, TOP, BOTTOM, TOPLEFT, TOPRIGHT, BOTTOMLEFT, BOTTOMRIGHT, NONE }
 	
+	/**Checks if the ball is hitting the wall at an instance 
+	 * and returns which part of the wall it is hitting 
+	 * */
 	public Wall checkEdge(){
 		Wall w = Wall.NONE;
-		currX = (int)  Math.abs(getLocation().getX());
-		currY = (int) Math.abs(getLocation().getY());
+		currX =  Math.abs(getLocation().getX()); 
+		currY = Math.abs(getLocation().getY());
 
-		if(currX - radius < 0) {
+		if(currX - radius <= 0) {
 			if(currY - radius < 0) {
 				w= Wall.TOPLEFT;
 			} else if  (currY + radius > canvasHeight) {
@@ -44,7 +53,7 @@ public class BouncingSprite extends ConstantVelocitySprite{
 				w= Wall.LEFT;
 			}
 		} 
-		else if (currX + radius > canvasWidth) {
+		else if (currX + radius >= canvasWidth) {
 			if(currY - radius<0){
 				w= Wall.TOPRIGHT;
 			}
@@ -52,51 +61,26 @@ public class BouncingSprite extends ConstantVelocitySprite{
 				w= Wall.BOTTOMRIGHT;
 			}
 			else {
-				System.out.println("curr x: "+currX);
 				w= Wall.RIGHT;
 			}
 		}
 		else if(currY <radius){
 			w= Wall.TOP;
 		}
-		else if(currY +radius > canvasHeight){
-			
-			w= Wall.BOTTOM;
-			
+		else if(currY +radius > canvasHeight){			
+			w= Wall.BOTTOM;			
 		}
-		
-		
 		
 		return w;
-	}	/*	
-		
-		System.out.println(currX+" "+currY);
-		if((currX <=radius || currX >=canvasWidth-radius)&&(currY <=radius || currY >=canvasHeight-radius)){
-			isit = "xy";
-		}
-		
-		else if(currX <=radius || currX >=canvasWidth-radius){
-			
-			isEdge*=-1;
-			
-			isit = "x";
-			
-		}
-		else if(currY <=radius || currY >=canvasHeight-radius){
-			isEdge *= -1;
-			isit = "y";
-		}
-		return isEdge;
-	}
-	*/ 
-	@Override
+	}	
+	@Override 
+	/** Checks if the sprite is on the edge and returns the opposite velocity*/
 	public void updatePosition(SmithPApplet pApplet, long curTime, long lastTime, long elapsedTime) {
-		float vx = velocity.getX()*elapsedTime;
-		float vy = velocity.getY()*elapsedTime;
+		float vx = velocity.getX();
+		float vy = velocity.getY();
 		
 		Wall w = checkEdge();
 		if(w != Wall.NONE) {
-			System.out.println("edge");
 			if (w == Wall.LEFT || w == Wall.TOPLEFT || w == Wall.BOTTOMLEFT) {
 				if(vx < 0) {
 					vx *= -1;
@@ -108,34 +92,31 @@ public class BouncingSprite extends ConstantVelocitySprite{
 				}
 			}
 			else if (w == Wall.TOP){
-				if (vy >0){
+				if (vy <0){
 					vy *=-1;
 				}
 			}
 			else {
 				System.out.println("bottom");
 				if (vy >0){
-					vy *=-20;
-					System.out.println(vy);
+					vy *=-1;
+				
 				}
 			}
+			velocity.set(vx,vy,0);
 			
-	
-			location.add(vx,
-					vy,
-					0);
-			
+			location.add(vx*elapsedTime,
+					vy*elapsedTime,
+					0);			
 		}
 		else{
-			System.out.println("it is not on the edge");
+			
 		location.add(
 				velocity.getX() * elapsedTime,
 				velocity.getY() * elapsedTime,
-				velocity.getZ() * elapsedTime);
-		
+				velocity.getZ() * elapsedTime);		
 		
 		}
 		
-		//System.out.println(velocity.getX()*elapsedTime+" "+velocity.getY()*elapsedTime);
 	}
 }
