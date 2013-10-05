@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<classpath>
+	<classpathentry kind="src" path="src"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/JavaSE-1.6"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.USER_LIBRARY/Processing"/>
+	<classpathentry kind="lib" path="/Users/hjin/Desktop/core/library/core.jar"/>
+	<classpathentry kind="lib" path="/Users/hjin/Desktop/core/library/gluegen-rt.jar"/>
+	<classpathentry kind="lib" path="/Users/hjin/Desktop/core/library/jogl-all.jar"/>
+	<classpathentry kind="output" path="bin"/>
+</classpath>
