@@ -26,7 +26,7 @@ public class test extends SmithPApplet{
 		
 	      
 	      dim = width/2;
-	      background(0);
+	      background(255);
 	      colorMode(HSB, 360, 100, 100);
 	      noStroke();
 	      ellipseMode(RADIUS);
@@ -56,7 +56,7 @@ public class test extends SmithPApplet{
 		  float alpha = 90;
 		  for (int r = radius; r > 0; --r) {
 			  
-		    fill(90, 90, 90,alpha);
+		    fill(h, 90, 90,alpha);
 		    ellipse(x, y, r, r);
 		    h = (h + 1) % 360;
 		   if(alpha >=3){
