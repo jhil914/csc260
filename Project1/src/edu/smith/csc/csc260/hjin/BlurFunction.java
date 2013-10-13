@@ -1,5 +1,6 @@
 package edu.smith.csc.csc260.hjin;
 
+import processing.core.PShape;
 import edu.smith.csc.csc260.core.SmithPApplet;
 
 
@@ -98,17 +99,21 @@ else{
 fill(0); //black ink drop
 
 
+
 //random radius
 
 float dropRad=randomizeFloat(0,15f);
-
+translate(pmouseX,pmouseY);
+ellipse(0,0,dropRad*2f,dropRad*2f);
 
 
 translate(pmouseX,pmouseY);
 
+
 //draw ink drop and blur it
 
 ellipse(0,0,dropRad*2f,dropRad*2f);
+
 
 filter(BLUR,1.8f);
 
@@ -124,6 +129,9 @@ strokeWeight(2f);
 float lenLine=randomizeFloat(0,20f);
 
 line(dropRad* cos(angle), dropRad* sin(angle), (dropRad+lenLine)* cos(angle), (dropRad+lenLine)* sin(angle) );
+
+
+
 
 }
 
