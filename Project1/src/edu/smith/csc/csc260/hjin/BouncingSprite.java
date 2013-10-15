@@ -97,7 +97,7 @@ public class BouncingSprite extends ConstantVelocitySprite{
 				}
 			}
 			else {
-				System.out.println("bottom");
+				
 				if (vy >0){
 					vy *=-1;
 				
