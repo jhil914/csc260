@@ -38,7 +38,7 @@ public class test2 extends SmithPApplet {
       
       
       setBackgroundColor(new Color(0,0,0, 255));
-     
+     // setBackgroundColor(new Color(255,255,255,255));
       //first bouncing sprite
       BouncingSprite bs = new BouncingSprite(windowWidth, windowHeight,new Point(.09f, .1f,0),10);
      
@@ -46,8 +46,8 @@ public class test2 extends SmithPApplet {
       bs.setFill(new Color(255,0,0,200));
       addSprite(bs);
     //creates 30 bouncing sprites in random colors, size and velocity
-  
-    
+      
+      
     }
     public void mouseDragged(){
     	
@@ -83,6 +83,7 @@ public class test2 extends SmithPApplet {
     			bs2.setFill(new Color(255f,255f,255f,(float) (Math.random()*255)));
     			bs2.setNoStroke(true);
     			addSprite(bs2);
+    			bs2.bounceFrom(new Point(mouseX, mouseY), 5);
     		s.add(bs2);
     	  		}
     	  	}

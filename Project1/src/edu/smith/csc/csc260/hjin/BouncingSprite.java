@@ -22,13 +22,41 @@ public class BouncingSprite extends ConstantVelocitySprite{
 	public float currY;
 	/** The sprite's radius */
 	public float radius;
+	public float vx = 0;
+	 public float vy = 0;
+	public boolean isit;
 	/** Constructor for bouncingsprite*/
 	public BouncingSprite(int W, int H,Point v,int r){
 		super(v, 0);
 		canvasHeight = H;
 		canvasWidth = W;	
 		radius = r;		
+		isit = false;
 	}
+	public Wall bounceFrom(Point p, int r){
+		Wall w = null;
+		float dx = p.getX()-getLocation().getX();
+		float dy = p.getY()-getLocation().getY();
+		float dis = (float) Math.sqrt(dy*dy+dx*dx);
+		float angle = (float) Math.atan2(dy, dx);
+		if(dis<=r+radius){
+			isit = true;
+			if(angle<45 && angle <315){
+				w= Wall.RIGHT;
+				System.out.println("should bounce");
+			}
+			
+		        
+		}
+		
+		
+		
+		
+		return w;
+	}
+	
+	
+	
 	//@override
 	public void render(SmithPApplet pApplet) {
 		pApplet.ellipse(radius, radius, 2*radius, 2*radius);
