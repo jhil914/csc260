@@ -25,13 +25,19 @@ public class BouncingSprite extends ConstantVelocitySprite{
 	public float vx = 0;
 	 public float vy = 0;
 	public boolean isit;
+	public Point mouse;
 	/** Constructor for bouncingsprite*/
-	public BouncingSprite(int W, int H,Point v,int r){
+	public BouncingSprite(int W, int H,Point v,int r,Point m){
 		super(v, 0);
 		canvasHeight = H;
 		canvasWidth = W;	
 		radius = r;		
 		isit = false;
+		mouse = m;
+	}
+	
+	public float getRadius(){
+		return radius;
 	}
 	public Wall bounceFrom(Point p, int r){
 		Wall w = null;
@@ -39,10 +45,12 @@ public class BouncingSprite extends ConstantVelocitySprite{
 		float dy = p.getY()-getLocation().getY();
 		float dis = (float) Math.sqrt(dy*dy+dx*dx);
 		float angle = (float) Math.atan2(dy, dx);
+		System.out.println(angle);
 		if(dis<=r+radius){
 			isit = true;
 			if(angle<45 && angle <315){
 				w= Wall.RIGHT;
+				
 				System.out.println("should bounce");
 			}
 			
@@ -108,6 +116,7 @@ public class BouncingSprite extends ConstantVelocitySprite{
 		float vy = velocity.getY();
 		
 		Wall w = checkEdge();
+		
 		if(w != Wall.NONE) {
 			if (w == Wall.LEFT || w == Wall.TOPLEFT || w == Wall.BOTTOMLEFT) {
 				if(vx < 0) {
@@ -145,6 +154,16 @@ public class BouncingSprite extends ConstantVelocitySprite{
 				velocity.getZ() * elapsedTime);		
 		
 		}
+		float dx = mouse.getX()-getLocation().getX();
+		float dy = mouse.getY()-getLocation().getY();
+		float dis = (float) Math.sqrt(dy*dy+dx*dx);
+		float angle = (float) Math.atan2(dy, dx);
+		//System.out.println(angle);
+		//System.out.println(mouse.getX());
+		if(dis<=25+radius){
+			System.out.println("collide");
+		}
+		
 		
 	}
 }

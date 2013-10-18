@@ -23,7 +23,7 @@ public class test2 extends SmithPApplet {
     /** canvas height*/
     public int windowHeight = 800;
     /** sets up the canvas*/
-    public ArrayList<ConstantVelocitySprite> s;
+    public ArrayList<BouncingSprite> s;
   //  public ArrayList<Float> xpos;
   //  public ArrayList<Float> ypos;
     float[] xpos = new float[50]; 
@@ -32,7 +32,7 @@ public class test2 extends SmithPApplet {
     public Point endP;
     public void setup() {
       super.setup();
-      s=new ArrayList<ConstantVelocitySprite>();
+      s=new ArrayList<BouncingSprite>();
       size(windowWidth,windowHeight);//sets the size of the canvas
       frameRate(30);
       
@@ -40,10 +40,12 @@ public class test2 extends SmithPApplet {
       setBackgroundColor(new Color(0,0,0, 255));
      // setBackgroundColor(new Color(255,255,255,255));
       //first bouncing sprite
-      BouncingSprite bs = new BouncingSprite(windowWidth, windowHeight,new Point(.09f, .1f,0),10);
+      BouncingSprite bs = new BouncingSprite(windowWidth, windowHeight,new Point(.09f, .1f,0),10,new Point(mouseX,mouseY));
      
       bs.setLocation(new Point(30,50));
       bs.setFill(new Color(255,0,0,200));
+      bs.bounceFrom(new Point(mouseX, mouseY), 5);
+      s.add(bs);
       addSprite(bs);
     //creates 30 bouncing sprites in random colors, size and velocity
       
@@ -74,7 +76,22 @@ public class test2 extends SmithPApplet {
     		    ellipse(xpos[i],ypos[i],i*50/xpos.length,i*50/xpos.length);
     		    
     		  }
-    	  	if(Math.abs(mouseX-pmouseX)==7){
+    	  //	System.out.println(s.get(0).getLocation().getX());
+    	  	float dx =mouseX-s.get(0).getLocation().getX();
+    		float dy = mouseY-s.get(0).getLocation().getY();
+    		float dis = (float) Math.sqrt(dy*dy+dx*dx);
+    		float angle = (float) Math.atan2(dy, dx);
+    		//System.out.println(angle);
+    		//System.out.println(mouse.getX());
+    		
+    		if(dis<=25+s.get(0).getRadius()){
+    			System.out.println("collide");
+    			
+    		}
+    	  	
+    	  	
+    	  	
+    	  	/**if(Math.abs(mouseX-pmouseX)==7){
     	  		if(mousePressed){
     	  			if(s.size()<100){
     	    	BouncingSprite bs2 = new BouncingSprite(windowWidth, windowHeight,new Point((float) Math.random()/5, (float) Math.random()/5,0),(int) (Math.random()*20));
@@ -88,7 +105,7 @@ public class test2 extends SmithPApplet {
     	  		}
     	  	}
     	  	}
-    	
+    	*/
     	
     }
     
@@ -123,7 +140,7 @@ public class test2 extends SmithPApplet {
 	  }
   	if(Math.abs(mouseX-pmouseX)==7){
   		
-  	if(s.size()<100){
+  /**	if(s.size()<100){
   			BouncingSprite bs2 = new BouncingSprite(windowWidth, windowHeight,new Point((float) Math.random()/5, (float) Math.random()/5,0),(int) (Math.random()*20));
   			bs2.setLocation(new Point(mouseX,mouseY));
   			bs2.setFill(new Color((float) (Math.random()*255),(float) (Math.random()*255),(float) (Math.random()*255),150));
@@ -132,7 +149,7 @@ public class test2 extends SmithPApplet {
   			addSprite(bs2);
   		s.add(bs2);
   	}
-		
+		*/
     }
   	  // Draw everything
   	/*if(s.size()>0){
