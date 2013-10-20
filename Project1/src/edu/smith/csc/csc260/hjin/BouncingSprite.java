@@ -27,41 +27,19 @@ public class BouncingSprite extends ConstantVelocitySprite{
 	public boolean isit;
 	public Point mouse;
 	/** Constructor for bouncingsprite*/
-	public BouncingSprite(int W, int H,Point v,int r,Point m){
+	public BouncingSprite(int W, int H,Point v,int r){
 		super(v, 0);
 		canvasHeight = H;
 		canvasWidth = W;	
 		radius = r;		
 		isit = false;
-		mouse = m;
+		
 	}
 	
 	public float getRadius(){
 		return radius;
 	}
-	public Wall bounceFrom(Point p, int r){
-		Wall w = null;
-		float dx = p.getX()-getLocation().getX();
-		float dy = p.getY()-getLocation().getY();
-		float dis = (float) Math.sqrt(dy*dy+dx*dx);
-		float angle = (float) Math.atan2(dy, dx);
-		System.out.println(angle);
-		if(dis<=r+radius){
-			isit = true;
-			if(angle<45 && angle <315){
-				w= Wall.RIGHT;
-				
-				System.out.println("should bounce");
-			}
-			
-		        
-		}
-		
-		
-		
-		
-		return w;
-	}
+	
 	
 	
 	
@@ -75,6 +53,14 @@ public class BouncingSprite extends ConstantVelocitySprite{
 	/**Checks if the ball is hitting the wall at an instance 
 	 * and returns which part of the wall it is hitting 
 	 * */
+	public void setVel (float velx, float vely){
+		velocity.set(velx,vely,0);
+	}
+	public Point getvel(){
+		return velocity;
+	}
+	
+	
 	public Wall checkEdge(){
 		Wall w = Wall.NONE;
 		currX =  Math.abs(getLocation().getX()); 
@@ -117,6 +103,7 @@ public class BouncingSprite extends ConstantVelocitySprite{
 		
 		Wall w = checkEdge();
 		
+		
 		if(w != Wall.NONE) {
 			if (w == Wall.LEFT || w == Wall.TOPLEFT || w == Wall.BOTTOMLEFT) {
 				if(vx < 0) {
@@ -153,15 +140,6 @@ public class BouncingSprite extends ConstantVelocitySprite{
 				velocity.getY() * elapsedTime,
 				velocity.getZ() * elapsedTime);		
 		
-		}
-		float dx = mouse.getX()-getLocation().getX();
-		float dy = mouse.getY()-getLocation().getY();
-		float dis = (float) Math.sqrt(dy*dy+dx*dx);
-		float angle = (float) Math.atan2(dy, dx);
-		//System.out.println(angle);
-		//System.out.println(mouse.getX());
-		if(dis<=25+radius){
-			System.out.println("collide");
 		}
 		
 		
