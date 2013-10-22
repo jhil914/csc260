@@ -1,23 +1,15 @@
 package edu.smith.csc.csc260.hjin;
 
+import edu.smith.csc.csc260.core.SmithPApplet;
+import edu.smith.csc.csc260.util.Color;
 
-public class testing {
+
+public class testing extends SmithPApplet{
 	
 	
 	
 	
-	public static void main(String args){
-		float count = (float) (Math.random()*2);
-		
-	System.out.println(count);
-		if(Math.abs(count) <=1){
-			System.out.println("t");
-			test2 t = new test2();
-		}
-		else{
-			System.out.println("s");
-			snake s = new snake();
-			
-		}
+	public void setup(){
+		BlurFunction bf = new BlurFunction();
 	}
 }
