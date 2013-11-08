@@ -7,6 +7,7 @@ import java.util.Vector;
 import java.util.concurrent.ConcurrentHashMap;
 
 import processing.core.PImage;
+import processing.core.PShape;
 import SimpleOpenNI.SimpleOpenNI;
 import edu.smith.csc.csc260.core.SmithPApplet;
 import edu.smith.csc.csc260.util.Color;
@@ -32,23 +33,45 @@ public class BodypartTrackingApplet extends SmithPApplet {
 	boolean tracking = false;
 	int userID;
 	
-	Circles[] c;
-
+	//Circles[] c;
+ArrayList<Petals> e = new ArrayList<Petals>();
 	float y = -5;
 	float y1 = -5;
 	float y2 = -5;
 	float y3 = -5;
 	float y4 = -5;
-	float r = random (20,40);
-	float r1 = random (20,40);
-	float r2 = random (20,40);
-	float r3 = random (20,40);
-	float r4 = random (20,40);
-	float x = random (10,590);
-	float x1 = random (10,590);
-	float x2 = random (10,590);
-	float x3 = random (10,590);
-	float x4 = random (10,590);
+	float y5 = -5;
+	float y6 = -5;
+	float y7 = -5;
+	float y8 = -5;
+	float r = random (5,20);
+	float r1 = random (5,20);
+	float r2 = random (5,20);
+	float r3 = random (5,20);
+	float r4 = random (5,20);
+	float r5 = random(5,20);
+	float r6 = random(5,20);
+	float r7 = random(5,20);
+	float r8 = random(5,20);
+	float rr =random (5,20);
+	float rr1 =random (5,20);
+	float rr2 =random (5,20);
+	float rr3= random (5,20);
+	float rr4 =random (5,20);
+	float rr5 =random (5,20);
+	float rr6 =random (5,20);
+	float rr7 =random (5,20);
+	float rr8 =random (5,20);
+	float x = random(500);
+	float x1 = random(500);
+	float x2 = random(500);
+	float x3 = random(500);
+	float x4 =random(500);
+	float x5 =random(500);
+	float x6 =random(500);
+	float x7 =random(500);
+	float x8 =random(500);
+	
 	float w = 397-y;
 
 	
@@ -61,8 +84,16 @@ public class BodypartTrackingApplet extends SmithPApplet {
 			return;
 		}
 		
+		for(int i=0; i<50; i++){
+			e.add(new Petals());
+			
+			e.get(i).x= random(500);
+			e.get(i).y = random(0,-5);
+			e.get(i).r=random(5,20);
+			e.get(i).rr=random(5,20);
+		}
 		  // enable skeleton generation for all joints
-		  c = new Circles [510];
+		/**  c = new Circles [510];
 		  for (int i=0; i<510; i++)
 		  {
 		    c[i] = new Circles();
@@ -72,7 +103,7 @@ public class BodypartTrackingApplet extends SmithPApplet {
 		    c[i].h = random(5, 20);
 		  }
 
-		/**background(0,0,0);
+		background(0,0,0);
 
 		  stroke(0,0,255);
 		  strokeWeight(3);
@@ -186,7 +217,7 @@ addSprite(bs2);
 				// update the pixel from the inner array to image
 				resultImage.updatePixels();
 				image(resultImage, 0, 0);
-				if(rrr.getLocation().getX()<=500){
+				/**if(rrr.getLocation().getX()<=500){
 				for (int i=0; i<rrr.getLocation().getX(); i++)
 				  {
 				    c[i].show();
@@ -203,27 +234,66 @@ addSprite(bs2);
 				  {
 				    c[(int) (rrr.getLocation().getX()+10)].y = random(60);
 				  }*/
-				
+				int count =0;
+				for(int i=0; i<50; i++){
+					e.get(i).show();
+					  e.get(i).y+=count+1;
+					  count++;
+					  e.get(i).x+=random(-7,7);
+					  if (e.get(i).y > 397) {
+						  e.get(i).y = random(-5,0);
+						  e.get(i).x = random(10,590);
+						 }
+					  if(count ==6){
+						  count =0;
+					  }
+				}
+			/**	
 				w = 397 - y;
 				fill(255,20,147,150);
-				  ellipse(x,y,r,r);
+				  ellipse(x,y,r,rr);
 				  w = 397 - y1;
 				  fill(255,20,147,150);
-				  ellipse(x1,y1,r1,r1);
+				  ellipse(x1,y1,r1,rr1);
 				  w = 397 - y2;
 				  fill(255,20,147,150);
-				  ellipse(x2,y2,r2,r2);
+				  ellipse(x2,y2,r2,rr2);
 				  w = 397 - y3;
 				  fill(255,20,147,150);
-				  ellipse(x3,y3,r3,r3);
+				  ellipse(x3,y3,r3,rr3);
 				  w = 397 - y4;
 				  fill(255,20,147,150);
-				  ellipse(x4,y4,r4,r4);
+				  ellipse(x4,y4,r4,rr4);
+				  w = 397 - y5;
+				  fill(255,20,147,150);
+				  ellipse(x5,y5,r5,rr5);
+				  w = 397 - y6;
+				  fill(255,20,147,150);
+				  ellipse(x6,y6,r6,rr6);
+				  w = 397 - y7;
+				  fill(255,20,147,150);
+				  ellipse(x7,y7,r7,rr7);
+				  w = 397 - y8;
+				  fill(255,20,147,150);
+				  ellipse(x8,y8,r8,rr8);
 				 y += 2;
 				 y1 += 3;
 				 y2 += 6;
 				 y3 += 4;
 				 y4 += 7;
+				 y5 += 5;
+				 y6+= 1;
+				 y7+= 8;
+				 y8 +=2;
+				 x +=random(-7,7);
+				 x1 +=random(-7,7);
+				 x2 +=random(-7,7);
+				 x3 +=random(-7,7);
+				 x4 +=random(-7,7);
+				 x5 +=random(-7,7);
+				 x6 +=random(-7,7);
+				 x7 +=random(-7,7);
+				 x8 +=random(-7,7);
 				 if (y > 397) {
 				   y = -5;
 				   x = random(10,590);
@@ -244,8 +314,24 @@ addSprite(bs2);
 				   y4 = -5;
 				   x4 = random(10,590);
 				 }
-
-				}
+				 if (y5 > 397) {
+					   y5 = -5;
+					   x5 = random(10,590);
+					 }
+				 if (y6 > 397) {
+					   y6 = -5;
+					   x6 = random(10,590);
+					 }
+				 if (y7 > 397) {
+					   y7 = -5;
+					   x7 = random(10,590);
+					 }
+				 if (y8 > 397) {
+					   y8 = -5;
+					   x8 = random(10,590);
+					 }
+*/
+				
 				if(hhh.getLocation().getX()!=0){
 					 collide();
 				 }
@@ -255,7 +341,7 @@ addSprite(bs2);
 				drawSunLight();
 				}
 		 
-		 
+
 
 		
 	}
@@ -331,16 +417,16 @@ bs2.setFill(new Color(0,0,255,255));
 
 		}}
 	}
-	class Circles
+	class Petals
 	{
 	  float x, y;
-	  float w, h;
-	  float howred, howgreen, howblue;
+	  float r, rr;
+	 
 	 
 	  void show()
 	  {
 	    fill(255,20,147,150);
-	    ellipse(x, y, w, h);
+	    ellipse(x, y, r,rr);
 	  }
 	 
 	  void move()
