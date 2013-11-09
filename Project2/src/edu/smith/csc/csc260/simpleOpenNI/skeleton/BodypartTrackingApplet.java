@@ -30,47 +30,25 @@ public class BodypartTrackingApplet extends SmithPApplet {
 	int[] userMap;
 	PImage backgroundImage;
 	PImage resultImage;
+	PImage body;
 	boolean tracking = false;
 	int userID;
+	
+	PImage um;
+	float umx;
+	float umy;
+	
 	
 	//Circles[] c;
 ArrayList<Petals> e = new ArrayList<Petals>();
 	float y = -5;
-	float y1 = -5;
-	float y2 = -5;
-	float y3 = -5;
-	float y4 = -5;
-	float y5 = -5;
-	float y6 = -5;
-	float y7 = -5;
-	float y8 = -5;
+	
 	float r = random (5,20);
-	float r1 = random (5,20);
-	float r2 = random (5,20);
-	float r3 = random (5,20);
-	float r4 = random (5,20);
-	float r5 = random(5,20);
-	float r6 = random(5,20);
-	float r7 = random(5,20);
-	float r8 = random(5,20);
+	
 	float rr =random (5,20);
-	float rr1 =random (5,20);
-	float rr2 =random (5,20);
-	float rr3= random (5,20);
-	float rr4 =random (5,20);
-	float rr5 =random (5,20);
-	float rr6 =random (5,20);
-	float rr7 =random (5,20);
-	float rr8 =random (5,20);
+	
 	float x = random(500);
-	float x1 = random(500);
-	float x2 = random(500);
-	float x3 = random(500);
-	float x4 =random(500);
-	float x5 =random(500);
-	float x6 =random(500);
-	float x7 =random(500);
-	float x8 =random(500);
+	
 	
 	float w = 397-y;
 
@@ -83,7 +61,7 @@ ArrayList<Petals> e = new ArrayList<Petals>();
 			exit();
 			return;
 		}
-		
+		um = loadImage("umbrella.png");
 		for(int i=0; i<50; i++){
 			e.add(new Petals());
 			
@@ -120,15 +98,7 @@ ArrayList<Petals> e = new ArrayList<Petals>();
 		simpleOpenNI.alternativeViewPointDepthToImage();
 resultImage = new PImage(640,480, RGB);
 
-bs2 = new BouncingSprite(width/2, height,
-		new Point((float) Math.random() / 5, (float) Math
-				.random() / 5, 0),
-		20);
-bs2.setLocation(new Point(0, 0));
-bs2.setFill(new Color(255,0,0,255));
-
-bs2.setNoStroke(true);
-addSprite(bs2);
+body = new PImage(640,480,RGB);
 		
 	}
 	public void onNewUser(SimpleOpenNI curContext, int userId)
@@ -194,6 +164,7 @@ addSprite(bs2);
 	}
 	public void draw()
 	{
+		
 		simpleOpenNI.update();
 		PImage rgbImage = simpleOpenNI.rgbImage();
 		// image(simpleOpenNI.userImage(), 0, 0);
@@ -208,9 +179,11 @@ addSprite(bs2);
 					if (userMap[i] != 0) {
 						// set the pixel to the color pixel
 						resultImage.pixels[i] =color(0,0,0); //rgbImage.pixels[i];
+						body.pixels[i] = resultImage.pixels[i];
 					} else {
 						// set it to the background
 						resultImage.pixels[i] = color(255,255,255); //backgroundImage.pixels[i];
+						
 					}
 				}
 
@@ -252,86 +225,24 @@ addSprite(bs2);
 				w = 397 - y;
 				fill(255,20,147,150);
 				  ellipse(x,y,r,rr);
-				  w = 397 - y1;
-				  fill(255,20,147,150);
-				  ellipse(x1,y1,r1,rr1);
-				  w = 397 - y2;
-				  fill(255,20,147,150);
-				  ellipse(x2,y2,r2,rr2);
-				  w = 397 - y3;
-				  fill(255,20,147,150);
-				  ellipse(x3,y3,r3,rr3);
-				  w = 397 - y4;
-				  fill(255,20,147,150);
-				  ellipse(x4,y4,r4,rr4);
-				  w = 397 - y5;
-				  fill(255,20,147,150);
-				  ellipse(x5,y5,r5,rr5);
-				  w = 397 - y6;
-				  fill(255,20,147,150);
-				  ellipse(x6,y6,r6,rr6);
-				  w = 397 - y7;
-				  fill(255,20,147,150);
-				  ellipse(x7,y7,r7,rr7);
-				  w = 397 - y8;
-				  fill(255,20,147,150);
-				  ellipse(x8,y8,r8,rr8);
+				
 				 y += 2;
-				 y1 += 3;
-				 y2 += 6;
-				 y3 += 4;
-				 y4 += 7;
-				 y5 += 5;
-				 y6+= 1;
-				 y7+= 8;
-				 y8 +=2;
+				
 				 x +=random(-7,7);
-				 x1 +=random(-7,7);
-				 x2 +=random(-7,7);
-				 x3 +=random(-7,7);
-				 x4 +=random(-7,7);
-				 x5 +=random(-7,7);
-				 x6 +=random(-7,7);
-				 x7 +=random(-7,7);
-				 x8 +=random(-7,7);
+				 
 				 if (y > 397) {
 				   y = -5;
 				   x = random(10,590);
 				 }
-				 if (y1 > 397) {
-				   y1 = -5;
-				   x1 = random(10,590);
-				 }
-				 if (y2 > 397) {
-				   y2 = -5;
-				   x2 = random(10,590);
-				 }
-				 if (y3 > 397) {
-				   y3 = -5;
-				   x3 = random(10,590);
-				 }
-				 if (y4 > 397) {
-				   y4 = -5;
-				   x4 = random(10,590);
-				 }
-				 if (y5 > 397) {
-					   y5 = -5;
-					   x5 = random(10,590);
-					 }
-				 if (y6 > 397) {
-					   y6 = -5;
-					   x6 = random(10,590);
-					 }
-				 if (y7 > 397) {
-					   y7 = -5;
-					   x7 = random(10,590);
-					 }
-				 if (y8 > 397) {
-					   y8 = -5;
-					   x8 = random(10,590);
-					 }
+				 
 */
 				
+				
+				umx = hhh.getLocation().getX();
+umy = hhh.getLocation().getY();
+
+image(um,umx-width/10,umy-height/3,width/5,height/3);
+				collide();
 				if(hhh.getLocation().getX()!=0){
 					 collide();
 				 }
@@ -341,14 +252,27 @@ addSprite(bs2);
 				drawSunLight();
 				}
 		 
-
-
+		 if(xpos1.length==50){
+			 if(Math.abs(xpos1[49]-xpos1[48])<1 && Math.abs(ypos1[49]-ypos1[48])<1){
+			 	fill(0,0,255,255);
+			 	ellipse(50,50,20,20);
+			 	System.out.println("stop");
+			 	PImage s = createImage(640,480,RGB);
+			 	s = body.get();
+			 	s.save("silloutte.png");
+			 	
+			 	image(s,50,50,100,100);
+			 			
+			 	
+			 }
+			 }
 		
 	}
+	
 	public void collide() {
 
 			//System.out.println(hhh.getLocation().getX());
-			float dx = hhh.getLocation().getX() - bs2.getLocation().getX();
+			/**float dx = hhh.getLocation().getX() - bs2.getLocation().getX();
 			float dy = hhh.getLocation().getY() - bs2.getLocation().getY();
 			float dis = (float) Math.sqrt(dy * dy + dx * dx);
 			float vx = bs2.getvel().getX();
@@ -372,6 +296,16 @@ bs2.setFill(new Color(0,0,255,255));
 				}
 			
 		}
+				*/
+				
+				for(int i=0; i<e.size();i++){
+					float petalx = e.get(i).x;
+					float petaly = e.get(i).y;
+					if(petalx< umx+width/10 && petalx >umx-width/10 && petaly >umy -height/3){
+						e.get(i).y = random(-5,0);
+						  e.get(i).x = random(10,590);
+					}
+				}
 }
 	public void drawSunLight() {
 		//System.out.println("drawing sunlight");
