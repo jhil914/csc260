@@ -17,11 +17,11 @@ public class BodypartTrackingApplet extends SmithPApplet {
 	private static final long serialVersionUID = 1L;
 	public SimpleOpenNI simpleOpenNI;
 	ConcurrentHashMap<Integer, Vector<BodypartTrackingSprite>> tracks = new ConcurrentHashMap<Integer, Vector<BodypartTrackingSprite>>();
-	BodypartTrackingSprite bbb;
+	
 	BodypartTrackingSprite hhh;
 	BodypartTrackingSprite rrr;
-	BouncingSprite bs2;
-	ArrayList<BouncingSprite> s = new ArrayList<BouncingSprite>();
+	
+	
 	boolean isit = false;
 	float[] xpos1 = new float[50];
 	float[] ypos1 = new float[50];
@@ -38,7 +38,7 @@ public class BodypartTrackingApplet extends SmithPApplet {
 	float umx;
 	float umy;
 	boolean stop = false;
-	int[] userMapcapture;
+	
 	int count;
 	// Circles[] c;
 	boolean isTouching = false;
@@ -51,7 +51,17 @@ public class BodypartTrackingApplet extends SmithPApplet {
 	boolean isOnRightSlope2 = false;
 
 	int fallingspeed = 7;
+	boolean clap = false;
+	int timer = 0;
+	
+	boolean isTouchingShadow = false;
+	boolean isTouchingBody = false;
+	
+	ArrayList<Integer> touchedXs_shadow = new ArrayList<Integer>();
+	ArrayList<Integer> touchedYs_shadow = new ArrayList<Integer>();
 
+	ArrayList<Integer> touchedXs_body = new ArrayList<Integer>();
+	ArrayList<Integer> touchedYs_body = new ArrayList<Integer>();
 	/*
 	 * int[] Xs = new int[n_petals]; int[] Ys = new int[n_petals];
 	 */
@@ -61,10 +71,9 @@ public class BodypartTrackingApplet extends SmithPApplet {
 
 	// Point[] Centers = new Point[2];
 
-	ArrayList<Integer> touchedXs = new ArrayList<Integer>();
-	ArrayList<Integer> touchedYs = new ArrayList<Integer>();
+	
 
-	int n_touchedPetals = 0;
+	
 
 	ArrayList<Petals> e = new ArrayList<Petals>();
 	float y = -5;
@@ -103,7 +112,7 @@ public class BodypartTrackingApplet extends SmithPApplet {
 		 */
 		smooth();
 		noStroke();
-		simpleOpenNI.setMirror(false);
+		simpleOpenNI.setMirror(true);
 		count = 0;
 		simpleOpenNI.enableDepth(); // needs to be enable for skeletons to work
 									// right
@@ -130,7 +139,6 @@ public class BodypartTrackingApplet extends SmithPApplet {
 
 		Vector<BodypartTrackingSprite> newTracks = new Vector<BodypartTrackingSprite>();
 
-		
 		rrr = new BodypartTrackingSprite(this, userId,
 				SimpleOpenNI.SKEL_RIGHT_HAND);
 		addSprite(rrr);
@@ -165,29 +173,50 @@ public class BodypartTrackingApplet extends SmithPApplet {
 		// super.draw();
 		if (tracking) {
 			// ask kinect for bitmap of user pixels
-			n_touchedPetals = touchedXs.size();
+			
 			loadPixels();
 			userMap = simpleOpenNI.userMap();
-//captures still image when the user stops
-			if (xpos1.length == 50) {
-				if (Math.abs(xpos1[49] - xpos1[48]) < 1
-						&& Math.abs(ypos1[49] - ypos1[48]) < 1) {
-					if (count < 30){
-						fill(0, 0, 255, 255);
-						ellipse(50, 50, 20, 20);
-						System.out.println("stop");
-						stop = true;
-						// loadPixels();
-						// userMapcapture = simpleOpenNI.userMap();
-						for (int i = 0; i < userMap.length; i++) {
-							if (userMap[i] != 0) {
-								anotherImage.pixels[i] = color(0, 0, 0);
-							} 
+			// captures still image when the user stops
+			super.draw();
+			umx = hhh.getLocation().getX();
+			umy = hhh.getLocation().getY();
+
+			image(um, umx - width / 10, umy - height / 3, width / 5, height / 3);
+			
+			float rightx = rrr.getLocation().getX();
+			float righty = rrr.getLocation().getY();
+			float leftx = hhh.getLocation().getX();
+			float lefty = hhh.getLocation().getY();
+			
+			
+			if(rightx!=0f && righty!=0f && leftx!=0f && lefty!=0f){
+			if(Math.abs(rightx - leftx) < 10f && Math.abs(righty - lefty) < 10f){
+				clap = true;
+			}
+			
+			}
+			
+			if (clap) {
+				
+				count++;
+				
+				if(count ==25){
+					fill(0, 0, 255, 255);
+					ellipse(50, 50, 20, 20);
+					System.out.println("stop");
+					stop = true;
+					
+					for (int i = 0; i < userMap.length; i++) {
+						if (userMap[i] != 0) {
+							anotherImage.pixels[i] = color(0, 0, 0);
 						}
 					}
+					count =0;
+					clap=false;
 				}
+
 			}
-			count++;
+			
 			resultImage.updatePixels();
 
 			image(resultImage, 0, 0);
@@ -208,95 +237,119 @@ public class BodypartTrackingApplet extends SmithPApplet {
 				int i = getLoc(x, y);
 
 				if ((y + r) < height && x < width / 2) {
-					println((y + r) + " " + x);
+					// println((y + r) + " " + x);
 					isTouching = (i <= userMap.length)
-							&& (userMap[getLoc(x, y + r)] == 1);
+							&& (anotherImage.pixels[getLoc(x, y + r)] == color(
+									0, 255, 0));
 				}
 
 				if ((y - r) > 0) { // && (y-r) <= height
 
 					// println ( (y - r) );
 
-					isInBody = (userMap[getLoc(x, y - r)] == 1);
+					isInBody = (anotherImage.pixels[getLoc(x, y - r)] == color(
+							0, 255, 0));
 
 				}
 
-				if (isTouching) {
+
+				if (isTouchingBody) {
 
 					// float to the top
 					if (isInBody) {
 						y -= 1;
 					}
-					touchedXs.add(x);
-					touchedYs.add(y);
+					touchedXs_body.add(x);
+					touchedYs_body.add(y);
+				}
+
+				
+				
+				else if (isTouchingShadow) {
+					touchedPetalIDs.add(petal_id);
+
+					// removing the touched petal and putting new petal
+					x=randomize(0, width / 2);
+					y=0;
+
+					touchedXs_shadow.add(x);
+					touchedYs_shadow.add(y);
 				}
 
 				else if (y <= height) {
 					y += fallingspeed;
-					// Centers[petal_id] = new Point(x, y);
 
 				} else {
-					// Centers[petal_id] = new Point(x, 0);
 					x = randomize(0, width / 2);
 					y = 0;
-				}
 
+				}
 				Xs.set(petal_id, x);
 				Ys.set(petal_id, y);
 
 			}
+			
+			int radius = 20;
 
-		int radius = 20;
+			for (int i = 0; i < userMap.length; i++) {
 
-		for (int i = 0; i < userMap.length; i++) {
+				if (touchedXs_shadow.size() > 0) {
+					for (int tpetal_id = 0; tpetal_id < touchedXs_shadow.size(); tpetal_id++) {
 
-			for (int tpetal_id = 0; tpetal_id < n_touchedPetals; tpetal_id++) {
+						int bodyX = getPoint(i)[0];
+						int bodyY = getPoint(i)[1];
 
-				int bodyX = getPoint(i)[0];
-				int bodyY = getPoint(i)[1];
+						int petalX = touchedXs_shadow.get(tpetal_id);
+						int petalY = touchedYs_shadow.get(tpetal_id);
 
-				int petalX = touchedXs.get(tpetal_id);
-				int petalY = touchedYs.get(tpetal_id);
+						if ((bodyX - petalX) * (bodyX - petalX)
+								+ (bodyY - petalY) * (bodyY - petalY) < radius
+								* radius) {
+							anotherImage.pixels[getLoc(bodyX, bodyY)] = color(255,255,255);
+						}
+					}
+				}
+				// if the pixel is part of the user
 
-				if ((bodyX - petalX) * (bodyX - petalX) + (bodyY - petalY)
-						* (bodyY - petalY) < radius * radius) {
-					anotherImage.pixels[getLoc(bodyX, bodyY)] = color(255, 255,
-							255);
+				if (userMap[i] != 0 || anotherImage.pixels[i] == color(0, 0, 0)) {
+					if(userMap[i] != 0){
+						
+						// set the pixel to the color pixel
+						resultImage.pixels[i] = color(0, 0, 0); // rgbImage.pixels[i];
+						// anotherImage.pixels[i] = color(0,0,0);
+					}else{
+						resultImage.pixels[i]= color(0,255,0);
+					}
+					
+					
+					
+
+				} else {
+					// set it to the background
+					resultImage.pixels[i] = color(255, 255, 255); // backgroundImage.pixels[i];
+					// anotherImage.pixels[i] = color(255,255,255);
 				}
 			}
-			// if the pixel is part of the user
 
-			if (userMap[i] != 0 || anotherImage.pixels[i] == color(0, 0, 0)) {
-				// set the pixel to the color pixel
-				resultImage.pixels[i] = color(0, 0, 0); // rgbImage.pixels[i];
-				// anotherImage.pixels[i] = color(0,0,0);
+			touchedXs_shadow.clear();
+			touchedYs_shadow.clear();
 			
 
-			} else {
-				// set it to the background
-				resultImage.pixels[i] = color(255, 255, 255); // backgroundImage.pixels[i];
-				// anotherImage.pixels[i] = color(255,255,255);
-			}
-		}
-		n_petals = Xs.size();
-		// update the pixel from the inner array to image
+			// println(touchedXs.size());
+			n_petals = Xs.size();
+			// update the pixel from the inner array to image
 
-		
-//umbrella code
-		umx = hhh.getLocation().getX();
-		umy = hhh.getLocation().getY();
+			// umbrella code
 
-		image(um, umx - width / 10, umy - height / 3, width / 5, height / 3);
-		
 		}
-		
-		
+
 	}
+
+	
 
 	public void collide() {
 
 		// System.out.println(hhh.getLocation().getX());
-		
 
 		for (int i = 0; i < e.size(); i++) {
 			float petalx = e.get(i).x;
