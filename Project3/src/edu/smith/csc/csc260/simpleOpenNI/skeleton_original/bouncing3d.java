@@ -1,6 +1,7 @@
 package edu.smith.csc.csc260.simpleOpenNI.skeleton_original;
 
 import processing.core.PApplet;
+import processing.core.PImage;
 import edu.smith.csc.csc260.core.SmithPApplet;
 import edu.smith.csc.csc260.util.Point;
 
@@ -9,9 +10,9 @@ public class bouncing3d extends SmithPApplet{
 	int yPos=240;
 	int zPos=1;
 	 
-	int xSpeed=2;
-	int ySpeed=2;
-	int zSpeed=2;
+	int xSpeed=4;
+	int ySpeed=4;
+	int zSpeed=4;
 	 
 	int xDirection=1;
 	int yDirection=1;
@@ -32,10 +33,12 @@ public class bouncing3d extends SmithPApplet{
 	 
 	 int centerx = 0;
 	 int eyez = 0;
+	PImage img;
 	public void setup() {
 	 
 	  size (640, 480, P3D);
 	  smooth();
+	  //img = loadImage("leaf.gif");
 	}
 	public void drawSunLight2() {
 		// System.out.println("drawing sunlight");
@@ -69,18 +72,17 @@ public class bouncing3d extends SmithPApplet{
 											// movement of the sprites
 
 					float y = 4 * sin(theta);
-					float z = cos(theta);
+					float z = sin(theta);
 					noStroke();
 
 					
 					// Draw an ellipse for each element in the arrays.
 					
-					//ellipse(xpos1[j] * x, ypos1[j] * y, i * 80 / xpos1.length,
-					//		i * 80 / xpos1.length);
+					//ellipse(xpos1[j] * x, ypos1[j] * y, i * 80 / xpos1.length,i * 80 / xpos1.length);
 					
-					 
-					  sphere(50);
-					  //translate (xpos1[j]*x, ypos1[j] * y, zpos1[j]);
+					translate (xpos1[j] * x, ypos1[j] * y,zpos[j]*z);
+					 sphere(i * 160 / xpos1.length);
+					  
 					  fill((int) 200 - j * 100 / xpos1.length,
 								(int) 255 - j * 100 / xpos1.length,
 								(int) 200 - j * 100 / xpos1.length,
@@ -98,37 +100,38 @@ public class bouncing3d extends SmithPApplet{
 	 */
 
 	public void draw() {
-	 
+		
+		
 	  background(1);
-	  drawSunLight2();
+	  //drawSunLight2();
 	  lights();
-	 
-	 
+	  
 	  // box setup
 	 
 	  stroke(255);
 	 
 	  // background square
 	 
-	  line(0, 0, -500, width, 0, -500);
-	  line(0, 0, -500, 0, height, -500);
-	  line(0, height, -500, width, height, -500);
-	  line(width, height, -500, width, 0, -500);
+	  line(0, 0, -2000, width, 0, -2000);
+	  line(0, 0, -2000, 0, height, -2000);
+	  line(0, height, -2000, width, height, -2000);
+	  line(width, height, -2000, width, 0, -2000);
 	 
 	  // perspective lines
 	 
-	  line(0, 0, -500, 0, 0, 0);
-	  line(width, 0, -500, width, 0, 0);
-	  line(0, height, -500, 0, height, 0);
-	  line(width, height, -500, width, height, 0);
+	  line(0, 0, -2000, 0, 0, 0);
+	  line(width, 0, -2000, width, 0, 0);
+	  line(0, height, -2000, 0, height, 0);
+	  line(width, height, -2000, width, height, 0);
 	 
 	 
 	  // inital ball set up
-	 
-	  translate (xPos, yPos, -zPos);
+	  //image(img, 0,0,10,10);
+		
+	  translate (width/2, height/2, (height/2) / -500);
 	  sphere(50);
 	  noFill();
-	 
+	  
 	  // motion setup
 	 
 	  xPos = xPos + (xSpeed * xDirection); 
@@ -160,26 +163,24 @@ public class bouncing3d extends SmithPApplet{
 	  }
 	 
 	  //reversal
-	 
+	  drawSunLight2();
 	  
 	 count ++;
 		  camera(width/2, height/2, (height/2) / tan(PI/6)+eyez, // eyeX, eyeY, eyeZ
-				  width/2+centerx, height/2, 0.0f, // centerX, centerY, centerZ
+				  width/2+centerx, height/2, -2000, // centerX, centerY, centerZ
 			         0.0f, 1.0f, 0.0f); // upX, upY, upZ
-			  
+			  System.out.println((height/2) / tan(PI/6)+eyez);
 	  
 	}
 	public void keyPressed() {
 		  if(key==CODED){
-		    if(      keyCode==LEFT){  centerx-=10;
-		    } if(keyCode==RIGHT){ centerx+=10;
-		    } if(keyCode==UP){    eyez-=10;
-		    } if(keyCode==DOWN){  eyez+=10;
-		    }
-		  }
-		  
+		    if(      keyCode==LEFT){  centerx-=50;
+		    } if(keyCode==RIGHT){ centerx+=50;
+		    } if(keyCode==UP){    eyez-=50;
+		    } if(keyCode==DOWN){  eyez+=50;
+		    } 
 		  redraw();
 		}
-	
+	}
 	
 }
