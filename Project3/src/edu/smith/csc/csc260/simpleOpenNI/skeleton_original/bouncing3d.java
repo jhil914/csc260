@@ -164,13 +164,18 @@ public class bouncing3d extends SmithPApplet{
 	 
 	  //reversal
 	  drawSunLight2();
-	  
+	  if(eyez %10==0){
+		  translate (50, 50, eyez);
+		 sphere(50);
+		 
+	  }
 	 count ++;
 		  camera(width/2, height/2, (height/2) / tan(PI/6)+eyez, // eyeX, eyeY, eyeZ
 				  width/2+centerx, height/2, -2000, // centerX, centerY, centerZ
 			         0.0f, 1.0f, 0.0f); // upX, upY, upZ
-			  System.out.println((height/2) / tan(PI/6)+eyez);
-	  
+			 
+			 
+			  eyez+=1;
 	}
 	public void keyPressed() {
 		  if(key==CODED){
