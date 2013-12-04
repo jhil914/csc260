@@ -53,7 +53,8 @@ public class project2 extends SmithPApplet {
 	ArrayList<Integer> fireflyXs = new ArrayList<Integer>();
     /*Arraylist of y coordinate values for fireflies that are falling*/
 	ArrayList<Integer> fireflyYs = new ArrayList<Integer>();
-
+	/*Arraylist of y coordinate values for fireflies that are falling*/
+	ArrayList<Integer> fireflyZs = new ArrayList<Integer>();
     /*Array of file names for chime soundtrack*/
 	final String[] soundSelection = { "Chimes1.mp3", "Chimes2.mp3", "Chimes3.mp3" };
 
@@ -158,9 +159,9 @@ public class project2 extends SmithPApplet {
 	public void draw() {
 
 		simpleOpenNI.update();
-		PImage rgbImage = simpleOpenNI.rgbImage();
-		image(rgbImage, width, 0);
-		
+		//PImage rgbImage = simpleOpenNI.rgbImage();
+		//image(rgbImage, width, 0);
+		//background(0);
 		if (tracking) {
 			
 			// ask kinect for bitmap of user pixels
@@ -212,7 +213,7 @@ public class project2 extends SmithPApplet {
 			resultImage.updatePixels();
 			image(resultImage, 0, 0);
 			
-			int fx, fy, inner_r, r, rRange;
+			int fx, fy, inner_r, r, rRange,fz;
 
 			//Draw fireflies
 			for (int firefly_id = 0; firefly_id < n_fireflies; firefly_id++) {
@@ -220,7 +221,7 @@ public class project2 extends SmithPApplet {
 			    //retrieves new x,y coordinates of firefly positions
 				fx = fireflyXs.get(firefly_id);
 				fy = fireflyYs.get(firefly_id);
-
+				fz = fireflyZs.get(firefly_id);
 				//Produces random size of fireflies for each frame to create blink effect
 				rRange = randomize(10, 13);
 				inner_r = randomize(rRange - 9, rRange - 6); //for inner circle of firefly
@@ -238,6 +239,7 @@ public class project2 extends SmithPApplet {
 					// remove the touched firefly and put a new falling firefly on screen
 					fx = randomize(0, width);
 					fy = 0;
+					fz = randomize(0, eyez);
 				}
 
 				//if firefly touches human body
@@ -266,7 +268,7 @@ public class project2 extends SmithPApplet {
 				//update coordinate values in arraylist
 				fireflyXs.set(firefly_id, fx);
 				fireflyYs.set(firefly_id, fy);
-
+				fireflyZs.set(firefly_id, fz);
 			}
 
 		       	//Draw pixels on screen
@@ -433,12 +435,13 @@ public class project2 extends SmithPApplet {
 	public void drawFirefly(int firefly_id, int x, int y, int r, int inner_r) {
 
 		noStroke();
-
+		
 		fill(0, 255, 255);
 		ellipse(x, y, inner_r * 2f, inner_r * 2f);
 		fill(0, 255, 255, 100);
 		ellipse(x, y, (r * 2f), (r * 2f));
-
+		
+		//sphere(50);
 	}
 
 	/**Add random firefly locations to coordinate arraylists for setup*/
@@ -446,6 +449,7 @@ public class project2 extends SmithPApplet {
 		for (int firefly_id = 0; firefly_id < n_fireflies; firefly_id++) {
 			fireflyXs.add(randomize(0, width));
 			fireflyYs.add(randomize(0, height));
+			fireflyZs.add(randomize(0,eyez));
 		}
 	}
 
@@ -537,5 +541,14 @@ public class project2 extends SmithPApplet {
 	public int randomize(int min, int max) {
 		return min + (int) (Math.random() * ((max - min) + 1));
 	}
+	public void keyPressed() {
+		  if(key==CODED){
+		    if(      keyCode==LEFT){  centerx-=50;
+		    } if(keyCode==RIGHT){ centerx+=50;
+		    } if(keyCode==UP){    eyez-=50;
+		    } if(keyCode==DOWN){  eyez+=50;
+		    } 
+		  redraw();
+		}
 
-}
+}}

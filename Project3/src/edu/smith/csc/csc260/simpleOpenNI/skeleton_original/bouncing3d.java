@@ -177,15 +177,7 @@ public class bouncing3d extends SmithPApplet{
 			 
 			  eyez+=1;
 	}
-	public void keyPressed() {
-		  if(key==CODED){
-		    if(      keyCode==LEFT){  centerx-=50;
-		    } if(keyCode==RIGHT){ centerx+=50;
-		    } if(keyCode==UP){    eyez-=50;
-		    } if(keyCode==DOWN){  eyez+=50;
-		    } 
-		  redraw();
-		}
+
 	}
 	
-}
+
