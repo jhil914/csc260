@@ -20,7 +20,7 @@ public class pollen extends SmithPApplet{
 	 
 	public void setup() {
 	  size(640,480, P3D);
-	   
+	  
 	  points = new float[nPoints][2];
 	  pollenMass = new float[nPoints];
 	  for(int i = 0; i < nPoints; i++) {
@@ -28,12 +28,12 @@ public class pollen extends SmithPApplet{
 	    pollenMass[i] = random(0, maxMass);
 	  }
 	  noiseDetail(14);
-	  background(255);
+	  background(0);
 	}
 	 
 	public void draw() { 
 	  float t = frameCount * timeSpeed;
-
+	  fill(0);
 	  line(0, 0, -2000, width, 0, -2000);
 	  line(0, 0, -2000, 0, height, -2000);
 	  line(0, height, -2000, width, height, -2000);
@@ -74,7 +74,7 @@ else{
 	x += lerp(-speed, speed, u);
     y += lerp(-speed, speed, v);
 }
-
+		
 	    ellipse(x, y, 10, 10);
 	    //System.out.println("speed: "+speed+"  u: "+u+"  v: "+v);
 	    x += lerp(-speed, speed, u);
