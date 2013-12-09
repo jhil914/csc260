@@ -25,7 +25,8 @@ public class softbody extends SmithPApplet{
 	public void setup() {
 	  size(640, 360);
 	  //center shape in window
-	  centerX = width/2;
+	  centerX = 1
+			  ;
 	  centerY = height/2;
 	  // iniitalize frequencies for corner nodes
 	  for (int i=0; i<nodes; i++){
