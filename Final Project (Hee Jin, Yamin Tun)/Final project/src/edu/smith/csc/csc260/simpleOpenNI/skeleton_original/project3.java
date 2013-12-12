@@ -9,7 +9,14 @@ import SimpleOpenNI.SimpleOpenNI;
 import edu.smith.csc.csc260.core.SmithPApplet;
 import edu.smith.csc.csc260.util.Color;
 import edu.smith.csc.csc260.util.Point;
-
+/**
+ * 
+ * @author Hee Jin, Yamin Tun
+ * 12 Dec 2013
+ *CSC 260
+ *
+ *
+ */
 public class project3 extends SmithPApplet {
 
 	private static final long serialVersionUID = 1L;
@@ -104,7 +111,7 @@ public class project3 extends SmithPApplet {
 
 			myLeaves[i][0] = new Leaves(width / 2, height / 2);
 
-			myLeaves[i][0].setID(0);
+			myLeaves[i][0].setID(0);//sets each of the cluster an ID
 
 		}
 
@@ -237,7 +244,7 @@ public class project3 extends SmithPApplet {
 							
 
 							if (gather[j] == true) {
-
+								// initializes the gather array to all false for red status
 								for (int k = 0; k < gather.length; k++) {
 
 									gather[k] = false;
@@ -248,9 +255,7 @@ public class project3 extends SmithPApplet {
 
 							}
 
-							// Draw an ellipse for each element in the arrays.
-
-							// Color and size are tied to the loop's counter: i.
+					//stores the location of right before it follows
 							myLeaves[i][j].storeloc(myLeaves[i][j].x,
 									myLeaves[i][j].y);
 							if(myLeaves[i][j].LinRange){
@@ -283,7 +288,7 @@ public class project3 extends SmithPApplet {
 								myLeaves[i][j].storeloc(myLeaves[i][j].x,
 
 								myLeaves[i][j].y);
-
+								// so that each cluster has a random point to gather
 								if (gather[j] == false) {
 
 									// System.out.println(j);
@@ -299,7 +304,7 @@ public class project3 extends SmithPApplet {
 								// System.out.println(j+" "+myLeaves[i][j].count+" ");
 
 								myLeaves[i][j].circlenear(10, gatherp[j]);
-
+								//initializes all the variable when the exploded circle gathers
 								if(myLeaves[i][j].cirinRange){
 									myLeaves[i][j].mousenearfalse();
 									myLeaves[i][j].outside = false;
@@ -431,7 +436,7 @@ public class project3 extends SmithPApplet {
 		}
 
 	}
-
+//initializes to the very first state
 	public void mouseClicked() {
 
 		for (int j = 0; j < myLeavestotal; j++) {
@@ -532,7 +537,7 @@ public class project3 extends SmithPApplet {
 			// System.out.println(initialx + " " + initialy);
 
 		}
-
+// what the circle does as a cluster
 		void update() {
 
 			if (Math.abs(x - initialx) > 100 || Math.abs(y - initialy) > 100) {
@@ -592,6 +597,7 @@ public class project3 extends SmithPApplet {
 			}
 
 		}
+		//follows the user as a cluster
 		public void follow2(Point g){
 			startP = new PVector(storedx, storedy);
 			endP = new PVector(g.getX(), g.getY());
@@ -636,7 +642,7 @@ public class project3 extends SmithPApplet {
 			return (LinRange || RinRange);
 
 		}
-
+//sets the center of the cluster to the current loc
 		public void setinitial() {
 
 			initialx = x;
